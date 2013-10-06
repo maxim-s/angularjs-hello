@@ -22,6 +22,16 @@ var mimeMap = {
   'svg': 'image/svg+xml'
 };
 
+
+function handleNumbersRequest(req,res){
+	res.writeHead(200, {
+				'Content-Type': mimeMap.json
+	});
+	
+	res.end(JSON.stringify([{first:"123"},{second:"456"}]));
+}
+
+
 function main() {
 	var server = http.createServer(function(req, res) {
 		if(req.url == "/") {
@@ -31,6 +41,11 @@ function main() {
 			});
 			return;
 		}   
+		
+		if (req.url == "/numbers"){
+			handleNumbersRequest(req,res);
+			return;
+		}
 	  
 		var path = ('./' + req.url).replace('//','/').replace(/%(..)/g, function(match, hex){
 			return String.fromCharCode(parseInt(hex, 16));
@@ -47,5 +62,7 @@ function main() {
 	console.log("Starting web server at localhost : " + DEFAULT_PORT);
 	server.listen(DEFAULT_PORT);
 };
+
+
 
 main();
