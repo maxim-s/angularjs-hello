@@ -9,13 +9,17 @@
   <ul class="menu">
     <li><a href="#/view1">view1</a></li>
     <li><a href="#/view2">view2</a></li>
-	    <li><a href="#/books">books</a></li>
+	    <li><a href="#/httpbooks">books</a></li>
+	    <li><a href="#/resourcebooks">resource books</a></li>
   </ul>
   <div ng-view></div>
   <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular/angular-resource.js"></script>
   <script src="js/app.js"></script>
    <script src="js/services/HelloService.js"></script>
-  <script src="js/controllers/BooksController.js"></script>
+    <script src="js/services/BooksService.js"></script>
+  <script src="js/controllers/HttpBooksController.js"></script>
+  <script src="js/controllers/ResourceBooksController.js"></script>
   <script src="js/filters.js"></script>
   <script src="js/directives.js"></script>
 </body>

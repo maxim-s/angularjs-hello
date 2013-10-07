@@ -2,7 +2,8 @@
 
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('myApp', []).
+var app = angular.module('myApp', ['ngResource']).
   config(['$routeProvider', function($routeProvider) {
-	$routeProvider.when('/books', {templateUrl: 'partials/books.html', controller: 'BooksController'});
+	$routeProvider.when('/httpbooks', {templateUrl: 'partials/books.html', controller: 'HttpBooksController'});
+	$routeProvider.when('/resourcebooks', {templateUrl: 'partials/resourcebooks.html', controller: 'ResourceBooksController'});
   }]);
