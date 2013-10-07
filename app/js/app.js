@@ -5,5 +5,4 @@
 var app = angular.module('myApp', []).
   config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/books', {templateUrl: 'partials/books.html', controller: 'BooksController'});
-    //$routeProvider.otherwise({redirectTo: '/'});
   }]);

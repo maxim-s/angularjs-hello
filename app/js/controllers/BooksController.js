@@ -1,8 +1,10 @@
 'use strict';
 
-app.controller("BooksController", function($scope,$http) {
-	$http.get('/books').success(function(data,status){
+function BooksController($scope,$http, $hello) {
+	console.log($hello.sayHello());
+	$http.get('/books').success(function(data,status){		
 		console.log(data);
 		$scope.books = data;
 	});
-});
+}
+app.controller("BooksController", BooksController);
