@@ -4,7 +4,8 @@ var util = require('util'),
     http = require('http'),
     fs = require('fs'),
     url = require('url'),
-    events = require('events');
+    events = require('events'),
+	qs = require('querystring');
 
 var DEFAULT_PORT = 8000;
 
@@ -31,9 +32,10 @@ function handleNumbersRequest(req,res){
 	res.end(JSON.stringify([{first:"123"},{second:"456"}]));
 }
 
-var books = [{title:"book 1", author : "author 1", code:1}, {title:"book 1", author : "author 1", code:1}];
+var books = [{title:"book 1", author : "author 1", code:1}, {title:"book 2", author : "author 2", code:2}];
 
 function addBook(book){
+		console.log(book);
 	books.push(book);
 }
 
@@ -45,18 +47,29 @@ function removeBook(code){
 	}
 }
 
+function getPostObject(data){
+	for(var key in data){
+				return key;
+			};
+}
+
 function handleBooksRequest(req,res){
 	var handled = false;
-	console.log(req.method,req.url);
 	if (req.method == "POST"){
-		req.on("data",function(data){
-			addBook(JSON.parse(data));
+		 var body = '';
+		req.on('data',function(data){
+			body += data;
 		});
+		 req.on('end', function () {
+            addBook(JSON.parse(getPostObject(qs.parse(body))));
+			handled = true;	
+        });
 	}
 	if (req.method == "DELETE"){
 		console.log("delete" , req);
 	}
 	if (req.method == "GET"){
+		console.log(books);
 		if (req.url == "/books"){
 			res.writeHead(200, {
 				'Content-Type': mimeMap.json
@@ -78,11 +91,9 @@ function main() {
 			});
 			return;
 		}   
-		console.log("handle 1");
 		if (handleBooksRequest(req,res)){
 			return;			
 		}
-	  console.log("handle 2");
 		var path = ('./' + req.url).replace('//','/').replace(/%(..)/g, function(match, hex){
 			return String.fromCharCode(parseInt(hex, 16));
 		});  
@@ -94,7 +105,6 @@ function main() {
 			
 			res.end(text);
 		});
-		console.log("handle 3");
 	});
 	console.log("Starting web server at localhost : " + DEFAULT_PORT);
 	server.listen(DEFAULT_PORT);
