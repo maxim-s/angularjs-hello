@@ -23,6 +23,54 @@ var mimeMap = {
   'svg': 'image/svg+xml'
 };
 
+// Books Repository
+
+function BooksRepository (){
+	var books = [];
+
+	function getBookIndex(bookCode) {
+		for (var i = 0; i < books.length; i++) {
+			var book = books[i];
+			
+			if (book.code == bookCode){
+				return i;
+			}
+		};
+
+		return -1;
+	}
+
+	this.addBook = function (book) {
+		book.code = books.length;
+		books.push(book);
+	};
+
+	this.getBooks = function() {
+		return books;
+	}
+
+	this.removeBook = function(book) {
+		var bookIndex = getBookIndex(book.code);
+
+		// todo: throw something when there is no such book.
+		books.splice(bookIndex, 1);
+	};
+
+	this.updateBook = function(book) {
+		var bookIndex = getBookIndex(book.code);
+
+		// todo: throw something when there is no such book.
+		books[bookIndex] = book;
+	};
+};
+
+var booksRepository = new BooksRepository();
+
+booksRepository.addBook({ title : "book 1", author : "author 1" })
+booksRepository.addBook({ title : "book 2", author : "author 2" })
+
+
+// Books Repository end 
 
 function handleNumbersRequest(req,res){
 	res.writeHead(200, {
@@ -30,21 +78,6 @@ function handleNumbersRequest(req,res){
 	});
 	
 	res.end(JSON.stringify([{first:"123"},{second:"456"}]));
-}
-
-var books = [{title:"book 1", author : "author 1", code:1}, {title:"book 2", author : "author 2", code:2}];
-
-function addBook(book){
-		console.log(book);
-	books.push(book);
-}
-
-function removeBook(code){
-	for(var i = 0; i< books.length ; i++){
-		if (books[i].code == code){
-			books.pop(books[i]);
-		}
-	}
 }
 
 function getPostObject(data){
@@ -61,7 +94,9 @@ function handleBooksRequest(req,res){
 			body += data;
 		});
 		 req.on('end', function () {
-            addBook(JSON.parse(getPostObject(qs.parse(body))));
+		 	var book = JSON.parse(getPostObject(qs.parse(body)));
+		 	booksRepository.addBook(book);
+            //addBook(JSON.parse(getPostObject(qs.parse(body))));
 			handled = true;	
         });
 	}
@@ -69,6 +104,8 @@ function handleBooksRequest(req,res){
 		console.log("delete" , req);
 	}
 	if (req.method == "GET"){
+		var books = booksRepository.getBooks();
+
 		console.log(books);
 		if (req.url == "/books"){
 			res.writeHead(200, {

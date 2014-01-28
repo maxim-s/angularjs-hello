@@ -3,9 +3,14 @@
   <div ng-controller="HttpBooksController">
 		<div ng-repeat='b in books'><a href="books/{{b.code}}">{{b.title}}</a></div>
     <form ng-submit="addBook()">
-      <input type="text" ng-model="book.title"/>
-	  <input type="text" ng-model="book.code"/>
-	  <input type="text" ng-model="book.author"/>
+      <div>
+        <label>Title: </label>
+        <input type="text" ng-model="book.title"/>
+      </div>
+      <div>
+        <label>Author: </label>
+        <input type="text" ng-model="book.author"/>
+      </div>
       <input class="btn-primary" type="submit" value="add">
     </form>
   </div>
