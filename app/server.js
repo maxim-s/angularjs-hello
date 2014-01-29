@@ -86,9 +86,9 @@ function getPostObject(data){
 			};
 }
 
-function handleBooksRequest(req,res){
+function handleBooksRequest(req,res) {
 	var handled = false;
-	if (req.method == "POST"){
+	if (req.method == "POST") {
 		 var body = '';
 		req.on('data',function(data){
 			body += data;
@@ -100,14 +100,14 @@ function handleBooksRequest(req,res){
 			handled = true;	
         });
 	}
-	if (req.method == "DELETE"){
+	if (req.method == "DELETE") {
 		console.log("delete" , req);
 	}
-	if (req.method == "GET"){
+	if (req.method == "GET") {
 		var books = booksRepository.getBooks();
 
 		console.log(books);
-		if (req.url == "/books"){
+		if (req.url == "/books") {
 			res.writeHead(200, {
 				'Content-Type': mimeMap.json
 			});	
@@ -119,29 +119,44 @@ function handleBooksRequest(req,res){
 	return handled;
 }
 
+function handleRootUrl(req, res) {
+	if(req.url == "/") {
+		fs.readFile("index.html", function(err, text){
+		  res.setHeader("Content-Type", "text/html");
+		  res.end(text);
+		});
+		
+		return true;
+	}
+
+	return false;
+}
+
+function handleStaticFile(req, res) {
+	var path = ('./' + req.url).replace('//','/').replace(/%(..)/g, function(match, hex){
+		return String.fromCharCode(parseInt(hex, 16));
+	});
+
+	fs.readFile(path, function(err, text){
+		res.writeHead(200, {
+			'Content-Type': mimeMap[path.split('.').pop()] || 'text/plain'
+		});
+		
+		res.end(text);
+	});
+}
+
 function main() {
 	var server = http.createServer(function(req, res) {
-		if(req.url == "/") {
-			fs.readFile("index.html", function(err, text){
-			  res.setHeader("Content-Type", "text/html");
-			  res.end(text);
-			});
-			return;
-		}   
-		if (handleBooksRequest(req,res)){
-			return;			
+		var handlers = [handleRootUrl, handleBooksRequest, handleStaticFile];
+
+		for (var i = 0; i < handlers.length; i++) {
+			var isRequestHandled = handlers[i](req, res);
+			if (isRequestHandled) {
+				return;
+			}
 		}
-		var path = ('./' + req.url).replace('//','/').replace(/%(..)/g, function(match, hex){
-			return String.fromCharCode(parseInt(hex, 16));
-		});  
-	
-		fs.readFile(path, function(err, text){
-			res.writeHead(200, {
-				'Content-Type': mimeMap[path.split('.').pop()] || 'text/plain'
-			});
-			
-			res.end(text);
-		});
+
 	});
 	console.log("Starting web server at localhost : " + DEFAULT_PORT);
 	server.listen(DEFAULT_PORT);
