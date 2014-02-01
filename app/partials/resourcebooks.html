@@ -2,16 +2,14 @@
   <h2>Books</h2>
   <div ng-controller="HttpBooksController">
 		<div ng-repeat='b in books'><a href="books/{{b.code}}">{{b.title}}</a></div>
-    <form ng-submit="addBook()">
+    <form style="width: 300px" ng-submit="addBook()">
       <div>
-        <label>Title: </label>
-        <input type="text" ng-model="book.title"/>
+        <input type="text" class="form-control" ng-model="book.title" placeholder="Title"/>
       </div>
       <div>
-        <label>Author: </label>
-        <input type="text" ng-model="book.author"/>
+        <input type="text" class="form-control" ng-model="book.author" placeholder="Author"/>
       </div>
-      <input class="btn-primary" type="submit" value="add">
+      <input class="btn btn-primary" type="submit" value="add">
     </form>
   </div>
 </divdiv>
