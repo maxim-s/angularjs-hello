@@ -5,7 +5,10 @@ var util = require('util'),
     fs = require('fs'),
     url = require('url'),
     events = require('events'),
-	qs = require('querystring');
+    readline = require('readline'),
+    stream = require('stream'),
+	qs = require('querystring'),
+    BooksRepository = require('./BooksRepository.js');
 
 var DEFAULT_PORT = 8000;
 
@@ -25,58 +28,21 @@ var mimeMap = {
 
 // Books Repository
 
-function BooksRepository (){
-	var books = [];
+console.log(BooksRepository);
 
-	function getBookIndex(bookCode) {
-		for (var i = 0; i < books.length; i++) {
-			var book = books[i];
-			
-			if (book.code == bookCode){
-				return i;
-			}
-		};
-
-		return -1;
-	}
-
-	this.addBook = function (book) {
-		book.code = books.length;
-		books.push(book);
-	};
-
-	this.getBooks = function() {
-		return books;
-	}
-
-	this.removeBook = function(book) {
-		var bookIndex = getBookIndex(book.code);
-
-		// todo: throw something when there is no such book.
-		books.splice(bookIndex, 1);
-	};
-
-	this.updateBook = function(book) {
-		var bookIndex = getBookIndex(book.code);
-
-		// todo: throw something when there is no such book.
-		books[bookIndex] = book;
-	};
-};
-
-var booksRepository = new BooksRepository();
+var booksRepository = new BooksRepository(fs,readline,stream);
 
 booksRepository.addBook({ title : "book 1", author : "author 1" })
 booksRepository.addBook({ title : "book 2", author : "author 2" })
 
 
-// Books Repository end 
+// Books Repository end
 
 function handleNumbersRequest(req,res){
 	res.writeHead(200, {
 				'Content-Type': mimeMap.json
 	});
-	
+
 	res.end(JSON.stringify([{first:"123"},{second:"456"}]));
 }
 
@@ -97,7 +63,7 @@ function handleBooksRequest(req,res) {
 		 	var book = JSON.parse(getPostObject(qs.parse(body)));
 		 	booksRepository.addBook(book);
             //addBook(JSON.parse(getPostObject(qs.parse(body))));
-			handled = true;	
+			handled = true;
         });
 	}
 	if (req.method == "DELETE") {
@@ -110,12 +76,12 @@ function handleBooksRequest(req,res) {
 		if (req.url == "/books") {
 			res.writeHead(200, {
 				'Content-Type': mimeMap.json
-			});	
+			});
 			res.end(JSON.stringify(books));
-			handled = true;	
-		}				
+			handled = true;
+		}
 	}
-	
+
 	return handled;
 }
 
@@ -125,7 +91,7 @@ function handleRootUrl(req, res) {
 		  res.setHeader("Content-Type", "text/html");
 		  res.end(text);
 		});
-		
+
 		return true;
 	}
 
@@ -141,7 +107,7 @@ function handleStaticFile(req, res) {
 		res.writeHead(200, {
 			'Content-Type': mimeMap[path.split('.').pop()] || 'text/plain'
 		});
-		
+
 		res.end(text);
 	});
 }
