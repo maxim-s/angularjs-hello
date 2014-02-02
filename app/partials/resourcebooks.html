@@ -1,7 +1,28 @@
 <div ng-app>
   <h2>Books</h2>
   <div ng-controller="HttpBooksController">
-		<div ng-repeat='b in books'><a href="books/{{b.code}}">{{b.title}}</a></div>
+    <table class="table table-hover">
+      <thead
+        <tr>
+          <th>
+            Title
+          </th>
+          <th>
+            Author
+          </th>
+        </tr>
+      </thead>
+      <tbody ng-repeat='b in books'>
+        <tr>
+          <td>
+            <a href="books/{{b.code}}">{{b.title}}</a>
+          </td>
+          <td>
+            <a href="books/{{b.code}}">{{b.author}}</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
     <form style="width: 300px" ng-submit="addBook()">
       <div>
         <input type="text" class="form-control" ng-model="book.title" placeholder="Title"/>
