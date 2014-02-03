@@ -1,6 +1,7 @@
 <div ng-app>
   <h2>Books</h2>
   <div ng-controller="HttpBooksController">
+<<<<<<< HEAD
     <table class="table table-hover">
       <thead
         <tr>
@@ -23,6 +24,9 @@
         </tr>
       </tbody>
     </table>
+=======
+		<div ng-repeat='b in books'><a href="books/{{b.code}}">{{b.title}}</a></div>
+>>>>>>> 8d0467050ebbbe5a5a9618b54e0bb919ac9066fd
     <form style="width: 300px" ng-submit="addBook()">
       <div>
         <input type="text" class="form-control" ng-model="book.title" placeholder="Title"/>
