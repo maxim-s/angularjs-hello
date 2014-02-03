@@ -16,7 +16,7 @@ var DEFAULT_PORT = 8000;
 console.log(BooksRepository);
 
 var booksRepository = new BooksRepository(fs,readline,stream);
-var requestHandler = new RequestHandler(booksRepository,fs);
+var requestHandler = new RequestHandler(booksRepository,fs,qs);
 
 
 function main() {
