@@ -1,40 +1,41 @@
 <div ng-app>
-  <h2>Books</h2>
-  <div ng-controller="HttpBooksController">
-<<<<<<< HEAD
-    <table class="table table-hover">
-      <thead
-        <tr>
-          <th>
-            Title
-          </th>
-          <th>
-            Author
-          </th>
-        </tr>
-      </thead>
-      <tbody ng-repeat='b in books'>
-        <tr>
-          <td>
-            <a href="books/{{b.code}}">{{b.title}}</a>
-          </td>
-          <td>
-            <a href="books/{{b.code}}">{{b.author}}</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-=======
-		<div ng-repeat='b in books'><a href="books/{{b.code}}">{{b.title}}</a></div>
->>>>>>> 8d0467050ebbbe5a5a9618b54e0bb919ac9066fd
-    <form style="width: 300px" ng-submit="addBook()">
-      <div>
-        <input type="text" class="form-control" ng-model="book.title" placeholder="Title"/>
-      </div>
-      <div>
-        <input type="text" class="form-control" ng-model="book.author" placeholder="Author"/>
-      </div>
-      <input class="btn btn-primary" type="submit" value="add">
-    </form>
-  </div>
-</divdiv>
+    <h2>Books</h2>
+
+    <div ng-controller="HttpBooksController">
+        <form class="form-inline" ng-submit="addBook()">
+            <input type="text" class="form-control" ng-model="book.title" placeholder="Title"/>
+            <input type="text" class="form-control" ng-model="book.author" placeholder="Author"/>
+            <input class="btn btn-primary" type="submit" value="add">
+        </form>
+
+        <h3>List</h3>
+
+        <input type="text" class="form-control" ng-model="bookFilter" placeholder="Filter">
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Author
+                </th>
+            </tr>
+            </thead>
+            <tbody ng-repeat='b in books | filter:bookFilter'>
+            <tr>
+                <td>
+                    <a href="books/{{b.code}}">{{b.title}}</a>
+                </td>
+                <td>
+                    <a href="books/{{b.code}}">{{b.author}}</a>
+                </td>
+                <td>
+                    <input class="btn btn-danger" type="submit" value="Delete" ng-click="deleteBook($index)">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
