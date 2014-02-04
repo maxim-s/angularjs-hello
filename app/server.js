@@ -9,7 +9,7 @@ var util = require('util'),
     stream = require('stream'),
 	  qs = require('querystring'),
     RequestHandler = require('./infrastructure/RequestHandler.js'),
-    BooksRepository = require('./BooksRepository.js');
+    BooksRepository = require('./infrastructure/BooksRepository.js');
 
 var DEFAULT_PORT = 8000;
 
