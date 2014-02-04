@@ -1,8 +1,26 @@
+      
+var pathHelper = require('path')
+
 var RequestHandler = module.exports = function (rootDir, booksRepository, fs, qs) {
     function getPostObject(data) {
         for (var key in data) {
             return key;
         }
+    }
+
+    function getFilePathFromUri(rootDir, uri) {
+        var filePathParts = uri.split('//');
+
+        var filePath = '';
+        for (var i = 0; i < filePathParts.length; i++) {
+            filePath = pathHelper.join(filePath, filePathParts[i]);
+        }
+
+        var encodedFilePath = filePath.replace(/%(..)/g, function (match, hex) {
+            return String.fromCharCode(parseInt(hex, 16));
+        });
+
+        return pathHelper.join(rootDir, encodedFilePath);
     }
 
     function handleBooksRequest(req, res) {
@@ -44,9 +62,8 @@ var RequestHandler = module.exports = function (rootDir, booksRepository, fs, qs
             return false;
         }
 
-        var path = rootDir + "\\" + ('./' + req.url).replace('//', '\\').replace(/%(..)/g, function (match, hex) {
-            return String.fromCharCode(parseInt(hex, 16));
-        });
+        var path = getFilePathFromUri(rootDir, req.url);
+
         console.log("path is " ,path);
 
         fs.readFile(path, function (err, text) {
@@ -60,7 +77,9 @@ var RequestHandler = module.exports = function (rootDir, booksRepository, fs, qs
     function handleRootUrl(req, res) {
         if (req.url == "/") {
             //console.log("handle root",__dirname + "\\index.html");
-            fs.readFile(rootDir +  "\\index.html", function (err, text) {
+            var indexPath = pathHelper.join(rootDir, "index.html");
+
+            fs.readFile(indexPath, function (err, text) {
                 console.log("reading file", err, text);
                 res.setHeader("Content-Type", "text/html");
                 res.end(text);
