@@ -8,7 +8,7 @@ var RequestHandler = module.exports = function (rootDir, booksRepository, fs, qs
         }
     }
 
-    function getFilePathFromUri(rootDir, uri) {
+    function getFilePathFromUri(uri) {
         var filePathParts = uri.split('//');
 
         var filePath = '';
@@ -62,7 +62,7 @@ var RequestHandler = module.exports = function (rootDir, booksRepository, fs, qs
             return false;
         }
 
-        var path = getFilePathFromUri(rootDir, req.url);
+        var path = getFilePathFromUri(req.url);
 
         console.log("path is " ,path);
 
