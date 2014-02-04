@@ -44,10 +44,10 @@ var RequestHandler = module.exports = function (rootDir, booksRepository, fs, qs
             return false;
         }
 
-        var path = ('./' + req.url).replace('//', '/').replace(/%(..)/g, function (match, hex) {
+        var path = rootDir + "\\" + ('./' + req.url).replace('//', '\\').replace(/%(..)/g, function (match, hex) {
             return String.fromCharCode(parseInt(hex, 16));
         });
-        console.log(path);
+        console.log("path is " ,path);
 
         fs.readFile(path, function (err, text) {
 
