@@ -1,4 +1,4 @@
-var RequestHandler = module.exports = function (booksRepository, fs, qs) {
+var RequestHandler = module.exports = function (rootDir, booksRepository, fs, qs) {
     function getPostObject(data) {
         for (var key in data) {
             return key;
@@ -59,7 +59,9 @@ var RequestHandler = module.exports = function (booksRepository, fs, qs) {
 
     function handleRootUrl(req, res) {
         if (req.url == "/") {
-            fs.readFile("index.html", function (err, text) {
+            //console.log("handle root",__dirname + "\\index.html");
+            fs.readFile(rootDir +  "\\index.html", function (err, text) {
+                console.log("reading file", err, text);
                 res.setHeader("Content-Type", "text/html");
                 res.end(text);
             });
