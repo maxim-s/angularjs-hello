@@ -27,7 +27,9 @@ function ResourceBooksController($scope, $location, $books) {
         console.log("Remove " + index);
         console.log(bookForDeleting);
 
-        bookForDeleting.$delete({}, function(){
+//        bookForDeleting.$delete();
+
+        bookForDeleting.$delete(function(){
             $scope.books.splice(index, 1);
         });
     };

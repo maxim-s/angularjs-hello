@@ -44,6 +44,8 @@ var RequestHandler = module.exports = function (rootDir, booksRepository, fs, qs
             var urlParts = req.url.split('/');
             var code = urlParts[urlParts.length - 1];
 
+            console.log(code);
+
             booksRepository.removeBook(code);
 
             return true;

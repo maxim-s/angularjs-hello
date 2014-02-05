@@ -15,6 +15,7 @@ var BooksRepository = module.exports = function (fs, readline, stream){
 
 	this.addBook = function (book) {
 		books.push(book);
+        save(fs,books);
 	};
 
 	this.getBooks = function() {
