@@ -39,7 +39,14 @@ var RequestHandler = module.exports = function (rootDir, booksRepository, fs, qs
             });
         }
         if (req.method == "DELETE") {
-            console.log("delete", req);
+            console.log("delete", req.url);
+
+            var urlParts = req.url.split('/');
+            var code = urlParts[urlParts.length - 1];
+
+            booksRepository.removeBook(code);
+
+            return true;
         }
         if (req.method == "GET") {
             var books = booksRepository.getBooks();
