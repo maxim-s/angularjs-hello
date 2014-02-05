@@ -1,7 +1,7 @@
 <div ng-app>
     <h2>Books</h2>
 
-    <div ng-controller="HttpBooksController">
+    <div>
         <form class="form-inline" ng-submit="addBook()">
             <input type="text" class="form-control" ng-model="book.title" placeholder="Title"/>
             <input type="text" class="form-control" ng-model="book.author" placeholder="Author"/>
@@ -26,10 +26,10 @@
             <tbody ng-repeat='b in books | filter:bookFilter'>
             <tr>
                 <td>
-                    <a href="books/{{b.code}}">{{b.title}}</a>
+                    <a href="books/{{b._id}}">{{b.title}}</a>
                 </td>
                 <td>
-                    <a href="books/{{b.code}}">{{b.author}}</a>
+                    <a href="books/author/{{b.author}}">{{b.author}}</a>
                 </td>
                 <td>
                     <input class="btn btn-danger" type="submit" value="Delete" ng-click="deleteBook($index)">
