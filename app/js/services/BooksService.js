@@ -1,7 +1,7 @@
 'use strict';
 
-function BooksSerrvice($resource){
-	return $resource('/books/:code');
+function BooksService($resource){
+	return $resource('/books/:code', { code: '@_id' });
 }
 
-app.factory('$books', ['$resource', BooksSerrvice]);
+app.factory('$books', ['$resource', BooksService]);

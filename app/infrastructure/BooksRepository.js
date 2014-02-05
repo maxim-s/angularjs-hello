@@ -15,14 +15,17 @@ var BooksRepository = module.exports = function (fs, readline, stream){
 
 	this.addBook = function (book) {
 		books.push(book);
+        save(fs,books);
 	};
 
 	this.getBooks = function() {
 		return books;
 	}
 
-	this.removeBook = function(book) {
-		var bookIndex = getBookIndex(book.code);
+	this.removeBook = function(code) {
+		var bookIndex = getBookIndex(code);
+
+        console.log(bookIndex);
 
 		// todo: throw something when there is no such book.
 		books.splice(bookIndex, 1);
@@ -44,6 +47,6 @@ function readAll(fs){
 
 
 function save(fs, books){
-    fs.writeFileSync(__dirname+ "/books.json", books.toString());
+    fs.writeFileSync(__dirname+ "/books.json", JSON.stringify(books));
 
 }
