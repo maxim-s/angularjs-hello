@@ -1,7 +1,7 @@
 'use strict';
 
 function ResourceBooksController($scope, $location, $books) {
-    $scope.books = $books.query();
+    $scope.books = $books.getAll();
     console.log($scope.books);
 
     $scope.book = {};
@@ -14,8 +14,7 @@ function ResourceBooksController($scope, $location, $books) {
         });
 
         console.log(book);
-
-        book.$save(book, function(){
+        $books.save(book, function(){
             $scope.books.push(book);
             console.log($scope.books);
         });
@@ -29,7 +28,7 @@ function ResourceBooksController($scope, $location, $books) {
 
 //        bookForDeleting.$delete();
 
-        bookForDeleting.$delete(function(){
+        $books.delete(bookForDeleting,function(){
             $scope.books.splice(index, 1);
         });
     };
