@@ -1,6 +1,6 @@
 'use strict';
 
-function BooksService($resource){
+function ResourceBooksService($resource){
 	var res =  $resource('/books/:code', { code: '@_id' });
     return {
         getAll:function(){
@@ -19,4 +19,4 @@ function BooksService($resource){
 
 }
 
-app.factory('$books', ['$resource', BooksService]);
+app.factory('$books', ['$resource', ResourceBooksService]);
