@@ -7,13 +7,15 @@ function ResourceBooksService($resource){
             return res.query();
         },
         save:function(book, cb){
-            book.$save(cb);
+            res.save(book, cb);
         },
         getById:function(id){
             return res.get({"code":id});
         },
         delete:function(book,cb){
-            book.$delete(cb);
+            console.log(book);
+            console.log(cb);
+            res.delete({_id: book._id}, cb);
         }
     }
 

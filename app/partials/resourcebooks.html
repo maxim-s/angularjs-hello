@@ -32,7 +32,7 @@
                     <a href="books/author/{{b.author}}">{{b.author}}</a>
                 </td>
                 <td>
-                    <input class="btn btn-danger" type="submit" value="Delete" ng-click="deleteBook($index)">
+                    <input class="btn btn-danger" type="submit" value="Delete" ng-click="deleteBook(b._id)">
                 </td>
             </tr>
             </tbody>

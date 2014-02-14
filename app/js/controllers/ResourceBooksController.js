@@ -7,11 +7,11 @@ function ResourceBooksController($scope, $location, $books) {
     $scope.book = {};
 
     $scope.addBook = function () {
-        var book = new $books({
+        var book = {
             _id: $scope.book.title + $scope.book.author,
             title: $scope.book.title,
             author: $scope.book.author
-        });
+        };
 
         console.log(book);
         $books.save(book, function(){
@@ -20,18 +20,32 @@ function ResourceBooksController($scope, $location, $books) {
         });
     };
 
-    $scope.deleteBook = function (index) {
+    $scope.deleteBook = function (code) {
+        var index = $scope.getBookIndex(code);
+        console.log("Remove " + index);
+
         var bookForDeleting = $scope.books[index];
 
-        console.log("Remove " + index);
         console.log(bookForDeleting);
 
-//        bookForDeleting.$delete();
-
-        $books.delete(bookForDeleting,function(){
+        $books.delete(bookForDeleting, function(){
             $scope.books.splice(index, 1);
+            console.log('deleted');
+            console.log($scope.books);
         });
     };
+
+    $scope.getBookIndex = function(id) {
+        for (var i = 0; i < $scope.books.length; i++) {
+            var book = $scope.books[i];
+
+            if (book._id == id){
+                return i;
+            }
+        }
+
+        return -1;
+    }
 }
 
 app.controller("ResourceBooksController", ResourceBooksController);

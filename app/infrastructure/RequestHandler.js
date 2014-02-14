@@ -48,7 +48,9 @@ var RequestHandler = module.exports = function (rootDir, booksRepository, fs, qs
 
             booksRepository.removeBook(code);
 
-            return true;
+            res.end();
+
+            handled = true;
         }
         if (req.method == "GET") {
             var books = booksRepository.getBooks();
